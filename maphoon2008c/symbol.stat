@@ -1,0 +1,19 @@
+
+
+#ifndef SYMBOL_STAT_INCLUDED
+#define SYMBOL_STAT_INCLUDED    1
+
+
+std::map< std::string, unsigned int > symbol::lookuptable = 
+                   std::map< std::string, unsigned int > ( );
+      
+std::vector< std::string > symbol::strings = 
+                   std::vector< std::string> ( );
+
+symbol symbol::recover = symbol( "_recover" );
+symbol symbol::defaultred = symbol( "_defaultred" );
+
+
+#endif
+
+

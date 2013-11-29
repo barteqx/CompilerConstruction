@@ -1,0 +1,1740 @@
+Start symbols / Lookaheads:
+   Start : { tEof }
+
+
+Rules:
+
+ [0]      Start --> TranslationUnits
+ [1]      TranslationUnits --> FunctionDefinition
+ [2]      TranslationUnits --> TranslationUnits, FunctionDefinition
+ [3]      FunctionDefinition --> ReturnType_FunctionIdentifier, tLeftPar, FormalArguments, tRightPar, tLeftBrace, FunctionBody, tRightBrace
+ [4]      FunctionDefinition --> ReturnType_FunctionIdentifier, tLeftPar, tRightPar, tLeftBrace, FunctionBody, tRightBrace
+ [5]      ReturnType_FunctionIdentifier --> Type, tIdentifier
+ [6]      Type --> tDouble
+ [7]      Type --> tBool
+ [8]      Type --> tVoid
+ [9]      FormalArguments --> Type, tIdentifier
+ [10]      FormalArguments --> FormalArguments, tComma, Type, tIdentifier
+ [11]      FunctionBody --> LocalDefinitions, InstructionsBlock
+ [12]      FunctionBody --> InstructionsBlock
+ [13]      LocalDefinitions --> Type, tIdentifier, tSemicolon
+ [14]      LocalDefinitions --> LocalDefinitions, Type, tIdentifier, tSemicolon
+ [15]      InstructionsBlock --> InstructionsBlock, Instruction
+ [16]      InstructionsBlock --> Instruction
+ [17]      Instruction --> Assignment
+ [18]      Instruction --> FunctionCall, tSemicolon
+ [19]      Instruction --> tPrint, tString
+ [20]      Instruction --> tPrint, tIdentifier
+ [21]      Instruction --> tPrint, tNumber
+ [22]      Instruction --> ReturnInstruction
+ [23]      Instruction --> tSemicolon
+ [24]      Instruction --> IfElseStatement
+ [25]      Assignment --> tIdentifier, tAssign, ArithmeticalExpression, tSemicolon
+ [26]      Assignment --> tIdentifier, tAssign, FunctionCall, tSemicolon
+ [27]      FunctionCall --> tIdentifier, tLeftPar, FunctionArguments, tRightPar
+ [28]      FunctionCall --> tIdentifier, tLeftPar, tRightPar
+ [29]      FunctionArguments --> ArithmeticalExpression
+ [30]      FunctionArguments --> FunctionArguments, tComma, ArithmeticalExpression
+ [31]      ArithmeticalExpression --> ArithmeticalExpression, tPlus, Addend
+ [32]      ArithmeticalExpression --> ArithmeticalExpression, tMinus, Addend
+ [33]      ArithmeticalExpression --> Addend
+ [34]      Addend --> Addend, tMultiplication, Factor
+ [35]      Addend --> Addend, tDivision, Factor
+ [36]      Addend --> Factor
+ [37]      Factor --> tIdentifier
+ [38]      Factor --> tMinus, tIdentifier
+ [39]      Factor --> tNumber
+ [40]      Factor --> tMinus, tNumber
+ [41]      Factor --> FunctionCall
+ [42]      Factor --> tLeftPar, ArithmeticalExpression, tRightPar
+ [43]      Factor --> tMinus, tLeftPar, ArithmeticalExpression, tRightPar
+ [44]      ReturnInstruction --> tReturn, ArithmeticalExpression, tSemicolon
+ [45]      ReturnInstruction --> tReturn, tSemicolon
+ [46]      IfElseStatement --> tIf, tLeftPar, IfElseCondition, tRightPar, BracedBlock, tElse, BracedBlock
+ [47]      IfElseCondition --> LogicalExpression
+ [48]      LogicalExpression --> LogicalExpression, tOr, Conjuction
+ [49]      LogicalExpression --> Conjuction
+ [50]      Conjuction --> Conjuction, tAnd, LogicalValue
+ [51]      Conjuction --> LogicalValue
+ [52]      LogicalValue --> tTrue
+ [53]      LogicalValue --> tFalse
+ [54]      LogicalValue --> Comparison
+ [55]      LogicalValue --> tLeftPar, LogicalExpression, tRightPar
+ [56]      LogicalValue --> tNot, tLeftPar, LogicalExpression, tRightPar
+ [57]      Comparison --> ArithmeticalExpression, tEqual, ArithmeticalExpression
+ [58]      Comparison --> ArithmeticalExpression, tNotEqual, ArithmeticalExpression
+ [59]      Comparison --> ArithmeticalExpression, tLess, ArithmeticalExpression
+ [60]      Comparison --> ArithmeticalExpression, tLessEqual, ArithmeticalExpression
+ [61]      Comparison --> ArithmeticalExpression, tGreater, ArithmeticalExpression
+ [62]      Comparison --> ArithmeticalExpression, tGreaterEqual, ArithmeticalExpression
+ [63]      BracedBlock --> tLeftBrace, InstructionsBlock, tRightBrace
+ [64]      BracedBlock --> Instruction
+ [65]      LoopStatement --> tWhile, tLeftPar, LoopStatementCondition, tRightPar, BracedBlock
+ [66]      LoopStatementCondition --> LogicalExpression
+
+
+Actions:
+
+
+
+declared symbols: { tAnd, tAssign, tBool, tComma, tDivision, tDo, tDouble, tElse, tEqual, tFalse, tIdentifier, tIf, tGreater, tGreaterEqual, tLeftBrace, tLeftPar, tLess, tLessEqual, tMinus, tMultiplication, tNot, tNotEqual, tNumber, tOr, tPlus, tReturn, tRightBrace, tRightPar, tSemicolon, tString, tTrue, tVoid, tWhile, Start, TranslationUnits, FunctionDefinition, ReturnType_FunctionIdentifier, Type, FormalArguments, FunctionBody, LocalDefinitions, InstructionsBlock, Instruction, Assignment, FunctionCall, FunctionArguments, ArithmeticalExpression, Addend, Factor, ReturnInstruction, IfElseStatement, IfElseCondition, LogicalExpression, Conjuction, LogicalValue, Comparison, LoopStatement, LoopStatementCondition }
+
+tokens occurring left:
+   { Start, TranslationUnits, FunctionDefinition, ReturnType_FunctionIdentifier, Type, FormalArguments, FunctionBody, LocalDefinitions, InstructionsBlock, Instruction, Assignment, FunctionCall, FunctionArguments, ArithmeticalExpression, Addend, Factor, ReturnInstruction, IfElseStatement, IfElseCondition, LogicalExpression, Conjuction, LogicalValue, Comparison, LoopStatement, LoopStatementCondition, BracedBlock }
+
+tokens occurring right:
+   { tAnd, tAssign, tBool, tComma, tDivision, tDouble, tElse, tEqual, tFalse, tIdentifier, tIf, tGreater, tGreaterEqual, tLeftBrace, tLeftPar, tLess, tLessEqual, tMinus, tMultiplication, tNot, tNotEqual, tNumber, tOr, tPlus, tReturn, tRightBrace, tRightPar, tSemicolon, tString, tTrue, tVoid, tWhile, TranslationUnits, FunctionDefinition, ReturnType_FunctionIdentifier, Type, FormalArguments, FunctionBody, LocalDefinitions, InstructionsBlock, Instruction, Assignment, FunctionCall, FunctionArguments, ArithmeticalExpression, Addend, Factor, ReturnInstruction, IfElseStatement, IfElseCondition, LogicalExpression, Conjuction, LogicalValue, Comparison, LoopStatementCondition, BracedBlock, tPrint }
+
+declared symbols that do not occur in grammar: { tDo }
+
+symbols that occur in grammar without declaration: { BracedBlock, tEof, tPrint }
+
+attributesystem:
+
+types of attributes:
+   attribute tp :  std::string
+   attribute tr :  std::string
+   attribute trlen :  int
+
+
+constraints on attributes:
+   1 <= tIdentifier. tr. size( ) < 2
+   1 <= tNumber. tr. size( ) < 2
+   1 <= tString. tr. size( ) < 2
+   1 <= TranslationUnits. tr. size( )
+   1 <= TranslationUnits. trlen. size( )
+   1 <= FunctionDefinition. tr. size( ) < 2
+   1 <= FunctionDefinition. trlen. size( ) < 2
+   1 <= ReturnType_FunctionIdentifier. tr. size( ) < 2
+   1 <= Type. tr. size( ) < 2
+   1 <= FormalArguments. tr. size( ) < 2
+   1 <= FormalArguments. trlen. size( ) < 2
+   1 <= FunctionBody. tr. size( ) < 2
+   1 <= FunctionBody. trlen. size( ) < 2
+   1 <= LocalDefinitions. tr. size( ) < 2
+   1 <= LocalDefinitions. trlen. size( ) < 2
+   1 <= InstructionsBlock. tr. size( ) < 2
+   1 <= InstructionsBlock. trlen. size( ) < 2
+   1 <= Instruction. tr. size( ) < 2
+   1 <= Instruction. trlen. size( ) < 2
+   1 <= Assignment. tr. size( ) < 2
+   1 <= Assignment. trlen. size( ) < 2
+   1 <= FunctionCall. tp. size( ) < 2
+   2 <= FunctionCall. tr. size( ) < 3
+   1 <= FunctionCall. trlen. size( ) < 2
+   1 <= FunctionArguments. tp. size( ) < 2
+   1 <= FunctionArguments. tr. size( ) < 2
+   2 <= FunctionArguments. trlen. size( ) < 3
+   1 <= ArithmeticalExpression. tp. size( ) < 2
+   1 <= ArithmeticalExpression. tr. size( ) < 2
+   1 <= ArithmeticalExpression. trlen. size( ) < 2
+   1 <= Addend. tp. size( ) < 2
+   1 <= Addend. tr. size( ) < 2
+   1 <= Addend. trlen. size( ) < 2
+   1 <= Factor. tp. size( ) < 2
+   1 <= Factor. tr. size( ) < 2
+   1 <= Factor. trlen. size( ) < 2
+   1 <= ReturnInstruction. tr. size( ) < 2
+   1 <= ReturnInstruction. trlen. size( ) < 2
+   1 <= IfElseStatement. tr. size( ) < 2
+   1 <= IfElseStatement. trlen. size( ) < 2
+   1 <= IfElseCondition. tp. size( ) < 2
+   1 <= IfElseCondition. tr. size( ) < 2
+   1 <= IfElseCondition. trlen. size( ) < 2
+   1 <= LogicalExpression. tp. size( ) < 2
+   1 <= LogicalExpression. tr. size( ) < 2
+   1 <= LogicalExpression. trlen. size( ) < 2
+   1 <= Conjuction. tp. size( ) < 2
+   1 <= Conjuction. tr. size( ) < 2
+   1 <= Conjuction. trlen. size( ) < 2
+   1 <= LogicalValue. tp. size( ) < 2
+   1 <= LogicalValue. tr. size( ) < 2
+   1 <= LogicalValue. trlen. size( ) < 2
+   1 <= Comparison. tp. size( ) < 2
+   1 <= Comparison. tr. size( ) < 2
+   1 <= Comparison. trlen. size( ) < 2
+   1 <= BracedBlock. tr. size( ) < 2
+   1 <= BracedBlock. trlen. size( ) < 2
+
+
+
+global variables
+   trunits : TrUnits
+
+Parsetable:
+
+==========================================
+
+   Start : S0
+
+
+S0:
+   Start -->  # TranslationUnits          { tEof }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tVoid : S3
+   Start : S127
+   TranslationUnits : S4
+   FunctionDefinition : S5
+   ReturnType_FunctionIdentifier : S6
+   Type : S7
+
+
+
+S1:
+   Type -->  tBool #          { _defaultred }
+
+Reductions:
+   Type -->  tBool #          { _defaultred }
+
+
+
+
+S2:
+   Type -->  tDouble #          { _defaultred }
+
+Reductions:
+   Type -->  tDouble #          { _defaultred }
+
+
+
+
+S3:
+   Type -->  tVoid #          { _defaultred }
+
+Reductions:
+   Type -->  tVoid #          { _defaultred }
+
+
+
+
+S4:
+   Start -->  TranslationUnits #          { _defaultred }
+   TranslationUnits -->  TranslationUnits # FunctionDefinition          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tVoid : S3
+   FunctionDefinition : S8
+   ReturnType_FunctionIdentifier : S6
+   Type : S7
+
+Reductions:
+   Start -->  TranslationUnits #          { _defaultred }
+
+
+
+
+S5:
+   TranslationUnits -->  FunctionDefinition #          { _defaultred }
+
+Reductions:
+   TranslationUnits -->  FunctionDefinition #          { _defaultred }
+
+
+
+
+S6:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier # tLeftPar FormalArguments tRightPar tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+   FunctionDefinition -->  ReturnType_FunctionIdentifier # tLeftPar tRightPar tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tLeftPar : S9
+
+
+
+S7:
+   ReturnType_FunctionIdentifier -->  Type # tIdentifier          { tLeftPar }
+
+Transitions:
+   tIdentifier : S10
+
+
+
+S8:
+   TranslationUnits -->  TranslationUnits FunctionDefinition #          { _defaultred }
+
+Reductions:
+   TranslationUnits -->  TranslationUnits FunctionDefinition #          { _defaultred }
+
+
+
+
+S9:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar # FormalArguments tRightPar tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar # tRightPar tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tRightPar : S11
+   tVoid : S3
+   Type : S12
+   FormalArguments : S13
+
+
+
+S10:
+   ReturnType_FunctionIdentifier -->  Type tIdentifier #          { _defaultred }
+
+Reductions:
+   ReturnType_FunctionIdentifier -->  Type tIdentifier #          { _defaultred }
+
+
+
+
+S11:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar tRightPar # tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tLeftBrace : S14
+
+
+
+S12:
+   FormalArguments -->  Type # tIdentifier          { tComma, tRightPar }
+
+Transitions:
+   tIdentifier : S15
+
+
+
+S13:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar FormalArguments # tRightPar tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+   FormalArguments -->  FormalArguments # tComma Type tIdentifier          { tComma, tRightPar }
+
+Transitions:
+   tComma : S16
+   tRightPar : S17
+
+
+
+S14:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar tRightPar tLeftBrace # FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tSemicolon : S21
+   tVoid : S3
+   Type : S22
+   FunctionBody : S23
+   LocalDefinitions : S24
+   InstructionsBlock : S25
+   Instruction : S26
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+
+
+S15:
+   FormalArguments -->  Type tIdentifier #          { _defaultred }
+
+Reductions:
+   FormalArguments -->  Type tIdentifier #          { _defaultred }
+
+
+
+
+S16:
+   FormalArguments -->  FormalArguments tComma # Type tIdentifier          { tComma, tRightPar }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tVoid : S3
+   Type : S32
+
+
+
+S17:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar FormalArguments tRightPar # tLeftBrace FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tLeftBrace : S33
+
+
+
+S18:
+   Assignment -->  tIdentifier # tAssign ArithmeticalExpression tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   Assignment -->  tIdentifier # tAssign FunctionCall tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   FunctionCall -->  tIdentifier # tLeftPar FunctionArguments tRightPar          { tSemicolon }
+   FunctionCall -->  tIdentifier # tLeftPar tRightPar          { tSemicolon }
+
+Transitions:
+   tAssign : S34
+   tLeftPar : S35
+
+
+
+S19:
+   IfElseStatement -->  tIf # tLeftPar IfElseCondition tRightPar BracedBlock tElse BracedBlock          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tLeftPar : S36
+
+
+
+S20:
+   ReturnInstruction -->  tReturn # ArithmeticalExpression tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   ReturnInstruction -->  tReturn # tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   tSemicolon : S41
+   FunctionCall : S42
+   ArithmeticalExpression : S43
+   Addend : S44
+   Factor : S45
+
+
+
+S21:
+   Instruction -->  tSemicolon #          { _defaultred }
+
+Reductions:
+   Instruction -->  tSemicolon #          { _defaultred }
+
+
+
+
+S22:
+   LocalDefinitions -->  Type # tIdentifier tSemicolon          { tBool, tDouble, tIdentifier, tIf, tReturn, tSemicolon, tVoid, Type, InstructionsBlock, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S46
+
+
+
+S23:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar tRightPar tLeftBrace FunctionBody # tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tRightBrace : S47
+
+
+
+S24:
+   FunctionBody -->  LocalDefinitions # InstructionsBlock          { tRightBrace }
+   LocalDefinitions -->  LocalDefinitions # Type tIdentifier tSemicolon          { tBool, tDouble, tIdentifier, tIf, tReturn, tSemicolon, tVoid, Type, InstructionsBlock, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tSemicolon : S21
+   tVoid : S3
+   Type : S48
+   InstructionsBlock : S49
+   Instruction : S26
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+
+
+S25:
+   FunctionBody -->  InstructionsBlock #          { _defaultred }
+   InstructionsBlock -->  InstructionsBlock # Instruction          { tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tSemicolon : S21
+   Instruction : S50
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+Reductions:
+   FunctionBody -->  InstructionsBlock #          { _defaultred }
+
+
+
+
+S26:
+   InstructionsBlock -->  Instruction #          { _defaultred }
+
+Reductions:
+   InstructionsBlock -->  Instruction #          { _defaultred }
+
+
+
+
+S27:
+   Instruction -->  Assignment #          { _defaultred }
+
+Reductions:
+   Instruction -->  Assignment #          { _defaultred }
+
+
+
+
+S28:
+   Instruction -->  FunctionCall # tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tSemicolon : S51
+
+
+
+S29:
+   Instruction -->  ReturnInstruction #          { _defaultred }
+
+Reductions:
+   Instruction -->  ReturnInstruction #          { _defaultred }
+
+
+
+
+S30:
+   Instruction -->  IfElseStatement #          { _defaultred }
+
+Reductions:
+   Instruction -->  IfElseStatement #          { _defaultred }
+
+
+
+
+S31:
+   Instruction -->  tPrint # tString          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   Instruction -->  tPrint # tIdentifier          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   Instruction -->  tPrint # tNumber          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S52
+   tNumber : S53
+   tString : S54
+
+
+
+S32:
+   FormalArguments -->  FormalArguments tComma Type # tIdentifier          { tComma, tRightPar }
+
+Transitions:
+   tIdentifier : S55
+
+
+
+S33:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar FormalArguments tRightPar tLeftBrace # FunctionBody tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tBool : S1
+   tDouble : S2
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tSemicolon : S21
+   tVoid : S3
+   Type : S22
+   FunctionBody : S56
+   LocalDefinitions : S24
+   InstructionsBlock : S25
+   Instruction : S26
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+
+
+S34:
+   Assignment -->  tIdentifier tAssign # ArithmeticalExpression tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   Assignment -->  tIdentifier tAssign # FunctionCall tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S57
+   ArithmeticalExpression : S58
+   Addend : S44
+   Factor : S45
+
+
+
+S35:
+   FunctionCall -->  tIdentifier tLeftPar # FunctionArguments tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   FunctionCall -->  tIdentifier tLeftPar # tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   tRightPar : S59
+   FunctionCall : S42
+   FunctionArguments : S60
+   ArithmeticalExpression : S61
+   Addend : S44
+   Factor : S45
+
+
+
+S36:
+   IfElseStatement -->  tIf tLeftPar # IfElseCondition tRightPar BracedBlock tElse BracedBlock          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tFalse : S62
+   tIdentifier : S37
+   tLeftPar : S63
+   tMinus : S39
+   tNot : S64
+   tNumber : S40
+   tTrue : S65
+   FunctionCall : S42
+   ArithmeticalExpression : S66
+   Addend : S44
+   Factor : S45
+   IfElseCondition : S67
+   LogicalExpression : S68
+   Conjuction : S69
+   LogicalValue : S70
+   Comparison : S71
+
+
+
+S37:
+   Factor -->  tIdentifier #          { _defaultred }
+   FunctionCall -->  tIdentifier # tLeftPar FunctionArguments tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   FunctionCall -->  tIdentifier # tLeftPar tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tLeftPar : S35
+
+Reductions:
+   Factor -->  tIdentifier #          { _defaultred }
+
+
+
+
+S38:
+   Factor -->  tLeftPar # ArithmeticalExpression tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S72
+   Addend : S44
+   Factor : S45
+
+
+
+S39:
+   Factor -->  tMinus # tIdentifier          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   Factor -->  tMinus # tNumber          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   Factor -->  tMinus # tLeftPar ArithmeticalExpression tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S73
+   tLeftPar : S74
+   tNumber : S75
+
+
+
+S40:
+   Factor -->  tNumber #          { _defaultred }
+
+Reductions:
+   Factor -->  tNumber #          { _defaultred }
+
+
+
+
+S41:
+   ReturnInstruction -->  tReturn tSemicolon #          { _defaultred }
+
+Reductions:
+   ReturnInstruction -->  tReturn tSemicolon #          { _defaultred }
+
+
+
+
+S42:
+   Factor -->  FunctionCall #          { _defaultred }
+
+Reductions:
+   Factor -->  FunctionCall #          { _defaultred }
+
+
+
+
+S43:
+   ReturnInstruction -->  tReturn ArithmeticalExpression # tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tMinus, tPlus, tSemicolon }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tMinus, tPlus, tSemicolon }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+   tSemicolon : S78
+
+
+
+S44:
+   ArithmeticalExpression -->  Addend #          { _defaultred }
+   Addend -->  Addend # tMultiplication Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   Addend -->  Addend # tDivision Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tDivision : S79
+   tMultiplication : S80
+
+Reductions:
+   ArithmeticalExpression -->  Addend #          { _defaultred }
+
+
+
+
+S45:
+   Addend -->  Factor #          { _defaultred }
+
+Reductions:
+   Addend -->  Factor #          { _defaultred }
+
+
+
+
+S46:
+   LocalDefinitions -->  Type tIdentifier # tSemicolon          { tBool, tDouble, tIdentifier, tIf, tReturn, tSemicolon, tVoid, Type, InstructionsBlock, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tSemicolon : S81
+
+
+
+S47:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar tRightPar tLeftBrace FunctionBody tRightBrace #          { _defaultred }
+
+Reductions:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar tRightPar tLeftBrace FunctionBody tRightBrace #          { _defaultred }
+
+
+
+
+S48:
+   LocalDefinitions -->  LocalDefinitions Type # tIdentifier tSemicolon          { tBool, tDouble, tIdentifier, tIf, tReturn, tSemicolon, tVoid, Type, InstructionsBlock, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S82
+
+
+
+S49:
+   FunctionBody -->  LocalDefinitions InstructionsBlock #          { _defaultred }
+   InstructionsBlock -->  InstructionsBlock # Instruction          { tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tSemicolon : S21
+   Instruction : S50
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+Reductions:
+   FunctionBody -->  LocalDefinitions InstructionsBlock #          { _defaultred }
+
+
+
+
+S50:
+   InstructionsBlock -->  InstructionsBlock Instruction #          { _defaultred }
+
+Reductions:
+   InstructionsBlock -->  InstructionsBlock Instruction #          { _defaultred }
+
+
+
+
+S51:
+   Instruction -->  FunctionCall tSemicolon #          { _defaultred }
+
+Reductions:
+   Instruction -->  FunctionCall tSemicolon #          { _defaultred }
+
+
+
+
+S52:
+   Instruction -->  tPrint tIdentifier #          { _defaultred }
+
+Reductions:
+   Instruction -->  tPrint tIdentifier #          { _defaultred }
+
+
+
+
+S53:
+   Instruction -->  tPrint tNumber #          { _defaultred }
+
+Reductions:
+   Instruction -->  tPrint tNumber #          { _defaultred }
+
+
+
+
+S54:
+   Instruction -->  tPrint tString #          { _defaultred }
+
+Reductions:
+   Instruction -->  tPrint tString #          { _defaultred }
+
+
+
+
+S55:
+   FormalArguments -->  FormalArguments tComma Type tIdentifier #          { _defaultred }
+
+Reductions:
+   FormalArguments -->  FormalArguments tComma Type tIdentifier #          { _defaultred }
+
+
+
+
+S56:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar FormalArguments tRightPar tLeftBrace FunctionBody # tRightBrace          { tBool, tDouble, tVoid, FunctionDefinition, ReturnType_FunctionIdentifier, Type, tEof }
+
+Transitions:
+   tRightBrace : S83
+
+
+
+S57:
+   Assignment -->  tIdentifier tAssign FunctionCall # tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   Factor -->  FunctionCall #          { tDivision, tMinus, tMultiplication, tPlus, tSemicolon }
+
+Transitions:
+   tSemicolon : S84
+
+Reductions:
+   Factor -->  FunctionCall #          { tDivision, tMinus, tMultiplication, tPlus, tSemicolon }
+
+
+
+
+S58:
+   Assignment -->  tIdentifier tAssign ArithmeticalExpression # tSemicolon          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tMinus, tPlus, tSemicolon }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tMinus, tPlus, tSemicolon }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+   tSemicolon : S85
+
+
+
+S59:
+   FunctionCall -->  tIdentifier tLeftPar tRightPar #          { _defaultred }
+
+Reductions:
+   FunctionCall -->  tIdentifier tLeftPar tRightPar #          { _defaultred }
+
+
+
+
+S60:
+   FunctionCall -->  tIdentifier tLeftPar FunctionArguments # tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   FunctionArguments -->  FunctionArguments # tComma ArithmeticalExpression          { tComma, tRightPar }
+
+Transitions:
+   tComma : S86
+   tRightPar : S87
+
+
+
+S61:
+   FunctionArguments -->  ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tComma, tMinus, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tComma, tMinus, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   FunctionArguments -->  ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S62:
+   LogicalValue -->  tFalse #          { _defaultred }
+
+Reductions:
+   LogicalValue -->  tFalse #          { _defaultred }
+
+
+
+
+S63:
+   LogicalValue -->  tLeftPar # LogicalExpression tRightPar          { tAnd, tOr, tRightPar }
+   Factor -->  tLeftPar # ArithmeticalExpression tRightPar          { tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tPlus, tRightPar }
+
+Transitions:
+   tFalse : S62
+   tIdentifier : S37
+   tLeftPar : S63
+   tMinus : S39
+   tNot : S64
+   tNumber : S40
+   tTrue : S65
+   FunctionCall : S42
+   ArithmeticalExpression : S88
+   Addend : S44
+   Factor : S45
+   LogicalExpression : S89
+   Conjuction : S69
+   LogicalValue : S70
+   Comparison : S71
+
+
+
+S64:
+   LogicalValue -->  tNot # tLeftPar LogicalExpression tRightPar          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tLeftPar : S90
+
+
+
+S65:
+   LogicalValue -->  tTrue #          { _defaultred }
+
+Reductions:
+   LogicalValue -->  tTrue #          { _defaultred }
+
+
+
+
+S66:
+   Comparison -->  ArithmeticalExpression # tEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tNotEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tLess ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tLessEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tGreater ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tGreaterEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tNotEqual, tPlus }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tNotEqual, tPlus }
+
+Transitions:
+   tEqual : S91
+   tGreater : S92
+   tGreaterEqual : S93
+   tLess : S94
+   tLessEqual : S95
+   tMinus : S76
+   tNotEqual : S96
+   tPlus : S77
+
+
+
+S67:
+   IfElseStatement -->  tIf tLeftPar IfElseCondition # tRightPar BracedBlock tElse BracedBlock          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tRightPar : S97
+
+
+
+S68:
+   IfElseCondition -->  LogicalExpression #          { _defaultred }
+   LogicalExpression -->  LogicalExpression # tOr Conjuction          { tOr, tRightPar }
+
+Transitions:
+   tOr : S98
+
+Reductions:
+   IfElseCondition -->  LogicalExpression #          { _defaultred }
+
+
+
+
+S69:
+   LogicalExpression -->  Conjuction #          { _defaultred }
+   Conjuction -->  Conjuction # tAnd LogicalValue          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tAnd : S99
+
+Reductions:
+   LogicalExpression -->  Conjuction #          { _defaultred }
+
+
+
+
+S70:
+   Conjuction -->  LogicalValue #          { _defaultred }
+
+Reductions:
+   Conjuction -->  LogicalValue #          { _defaultred }
+
+
+
+
+S71:
+   LogicalValue -->  Comparison #          { _defaultred }
+
+Reductions:
+   LogicalValue -->  Comparison #          { _defaultred }
+
+
+
+
+S72:
+   Factor -->  tLeftPar ArithmeticalExpression # tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tMinus, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tMinus, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+   tRightPar : S100
+
+
+
+S73:
+   Factor -->  tMinus tIdentifier #          { _defaultred }
+
+Reductions:
+   Factor -->  tMinus tIdentifier #          { _defaultred }
+
+
+
+
+S74:
+   Factor -->  tMinus tLeftPar # ArithmeticalExpression tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S101
+   Addend : S44
+   Factor : S45
+
+
+
+S75:
+   Factor -->  tMinus tNumber #          { _defaultred }
+
+Reductions:
+   Factor -->  tMinus tNumber #          { _defaultred }
+
+
+
+
+S76:
+   ArithmeticalExpression -->  ArithmeticalExpression tMinus # Addend          { tAnd, tComma, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   Addend : S102
+   Factor : S45
+
+
+
+S77:
+   ArithmeticalExpression -->  ArithmeticalExpression tPlus # Addend          { tAnd, tComma, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   Addend : S103
+   Factor : S45
+
+
+
+S78:
+   ReturnInstruction -->  tReturn ArithmeticalExpression tSemicolon #          { _defaultred }
+
+Reductions:
+   ReturnInstruction -->  tReturn ArithmeticalExpression tSemicolon #          { _defaultred }
+
+
+
+
+S79:
+   Addend -->  Addend tDivision # Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   Factor : S104
+
+
+
+S80:
+   Addend -->  Addend tMultiplication # Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   Factor : S105
+
+
+
+S81:
+   LocalDefinitions -->  Type tIdentifier tSemicolon #          { _defaultred }
+
+Reductions:
+   LocalDefinitions -->  Type tIdentifier tSemicolon #          { _defaultred }
+
+
+
+
+S82:
+   LocalDefinitions -->  LocalDefinitions Type tIdentifier # tSemicolon          { tBool, tDouble, tIdentifier, tIf, tReturn, tSemicolon, tVoid, Type, InstructionsBlock, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tSemicolon : S106
+
+
+
+S83:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar FormalArguments tRightPar tLeftBrace FunctionBody tRightBrace #          { _defaultred }
+
+Reductions:
+   FunctionDefinition -->  ReturnType_FunctionIdentifier tLeftPar FormalArguments tRightPar tLeftBrace FunctionBody tRightBrace #          { _defaultred }
+
+
+
+
+S84:
+   Assignment -->  tIdentifier tAssign FunctionCall tSemicolon #          { _defaultred }
+
+Reductions:
+   Assignment -->  tIdentifier tAssign FunctionCall tSemicolon #          { _defaultred }
+
+
+
+
+S85:
+   Assignment -->  tIdentifier tAssign ArithmeticalExpression tSemicolon #          { _defaultred }
+
+Reductions:
+   Assignment -->  tIdentifier tAssign ArithmeticalExpression tSemicolon #          { _defaultred }
+
+
+
+
+S86:
+   FunctionArguments -->  FunctionArguments tComma # ArithmeticalExpression          { tComma, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S107
+   Addend : S44
+   Factor : S45
+
+
+
+S87:
+   FunctionCall -->  tIdentifier tLeftPar FunctionArguments tRightPar #          { _defaultred }
+
+Reductions:
+   FunctionCall -->  tIdentifier tLeftPar FunctionArguments tRightPar #          { _defaultred }
+
+
+
+
+S88:
+   Factor -->  tLeftPar ArithmeticalExpression # tRightPar          { tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tNotEqual, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tNotEqual, tPlus, tRightPar }
+   Comparison -->  ArithmeticalExpression # tEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tNotEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tLess ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tLessEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tGreater ArithmeticalExpression          { tAnd, tOr, tRightPar }
+   Comparison -->  ArithmeticalExpression # tGreaterEqual ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tEqual : S91
+   tGreater : S92
+   tGreaterEqual : S93
+   tLess : S94
+   tLessEqual : S95
+   tMinus : S76
+   tNotEqual : S96
+   tPlus : S77
+   tRightPar : S100
+
+
+
+S89:
+   LogicalValue -->  tLeftPar LogicalExpression # tRightPar          { tAnd, tOr, tRightPar }
+   LogicalExpression -->  LogicalExpression # tOr Conjuction          { tOr, tRightPar }
+
+Transitions:
+   tOr : S98
+   tRightPar : S108
+
+
+
+S90:
+   LogicalValue -->  tNot tLeftPar # LogicalExpression tRightPar          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tFalse : S62
+   tIdentifier : S37
+   tLeftPar : S63
+   tMinus : S39
+   tNot : S64
+   tNumber : S40
+   tTrue : S65
+   FunctionCall : S42
+   ArithmeticalExpression : S66
+   Addend : S44
+   Factor : S45
+   LogicalExpression : S109
+   Conjuction : S69
+   LogicalValue : S70
+   Comparison : S71
+
+
+
+S91:
+   Comparison -->  ArithmeticalExpression tEqual # ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S110
+   Addend : S44
+   Factor : S45
+
+
+
+S92:
+   Comparison -->  ArithmeticalExpression tGreater # ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S111
+   Addend : S44
+   Factor : S45
+
+
+
+S93:
+   Comparison -->  ArithmeticalExpression tGreaterEqual # ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S112
+   Addend : S44
+   Factor : S45
+
+
+
+S94:
+   Comparison -->  ArithmeticalExpression tLess # ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S113
+   Addend : S44
+   Factor : S45
+
+
+
+S95:
+   Comparison -->  ArithmeticalExpression tLessEqual # ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S114
+   Addend : S44
+   Factor : S45
+
+
+
+S96:
+   Comparison -->  ArithmeticalExpression tNotEqual # ArithmeticalExpression          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tIdentifier : S37
+   tLeftPar : S38
+   tMinus : S39
+   tNumber : S40
+   FunctionCall : S42
+   ArithmeticalExpression : S115
+   Addend : S44
+   Factor : S45
+
+
+
+S97:
+   IfElseStatement -->  tIf tLeftPar IfElseCondition tRightPar # BracedBlock tElse BracedBlock          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S18
+   tIf : S19
+   tLeftBrace : S116
+   tReturn : S20
+   tSemicolon : S21
+   Instruction : S117
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   BracedBlock : S118
+   tPrint : S31
+
+
+
+S98:
+   LogicalExpression -->  LogicalExpression tOr # Conjuction          { tOr, tRightPar }
+
+Transitions:
+   tFalse : S62
+   tIdentifier : S37
+   tLeftPar : S63
+   tMinus : S39
+   tNot : S64
+   tNumber : S40
+   tTrue : S65
+   FunctionCall : S42
+   ArithmeticalExpression : S66
+   Addend : S44
+   Factor : S45
+   Conjuction : S119
+   LogicalValue : S70
+   Comparison : S71
+
+
+
+S99:
+   Conjuction -->  Conjuction tAnd # LogicalValue          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tFalse : S62
+   tIdentifier : S37
+   tLeftPar : S63
+   tMinus : S39
+   tNot : S64
+   tNumber : S40
+   tTrue : S65
+   FunctionCall : S42
+   ArithmeticalExpression : S66
+   Addend : S44
+   Factor : S45
+   LogicalValue : S120
+   Comparison : S71
+
+
+
+S100:
+   Factor -->  tLeftPar ArithmeticalExpression tRightPar #          { _defaultred }
+
+Reductions:
+   Factor -->  tLeftPar ArithmeticalExpression tRightPar #          { _defaultred }
+
+
+
+
+S101:
+   Factor -->  tMinus tLeftPar ArithmeticalExpression # tRightPar          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tMinus, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tMinus, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+   tRightPar : S121
+
+
+
+S102:
+   ArithmeticalExpression -->  ArithmeticalExpression tMinus Addend #          { _defaultred }
+   Addend -->  Addend # tMultiplication Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   Addend -->  Addend # tDivision Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tDivision : S79
+   tMultiplication : S80
+
+Reductions:
+   ArithmeticalExpression -->  ArithmeticalExpression tMinus Addend #          { _defaultred }
+
+
+
+
+S103:
+   ArithmeticalExpression -->  ArithmeticalExpression tPlus Addend #          { _defaultred }
+   Addend -->  Addend # tMultiplication Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+   Addend -->  Addend # tDivision Factor          { tAnd, tComma, tDivision, tEqual, tGreater, tGreaterEqual, tLess, tLessEqual, tMinus, tMultiplication, tNotEqual, tOr, tPlus, tRightPar, tSemicolon }
+
+Transitions:
+   tDivision : S79
+   tMultiplication : S80
+
+Reductions:
+   ArithmeticalExpression -->  ArithmeticalExpression tPlus Addend #          { _defaultred }
+
+
+
+
+S104:
+   Addend -->  Addend tDivision Factor #          { _defaultred }
+
+Reductions:
+   Addend -->  Addend tDivision Factor #          { _defaultred }
+
+
+
+
+S105:
+   Addend -->  Addend tMultiplication Factor #          { _defaultred }
+
+Reductions:
+   Addend -->  Addend tMultiplication Factor #          { _defaultred }
+
+
+
+
+S106:
+   LocalDefinitions -->  LocalDefinitions Type tIdentifier tSemicolon #          { _defaultred }
+
+Reductions:
+   LocalDefinitions -->  LocalDefinitions Type tIdentifier tSemicolon #          { _defaultred }
+
+
+
+
+S107:
+   FunctionArguments -->  FunctionArguments tComma ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tComma, tMinus, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tComma, tMinus, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   FunctionArguments -->  FunctionArguments tComma ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S108:
+   LogicalValue -->  tLeftPar LogicalExpression tRightPar #          { _defaultred }
+
+Reductions:
+   LogicalValue -->  tLeftPar LogicalExpression tRightPar #          { _defaultred }
+
+
+
+
+S109:
+   LogicalValue -->  tNot tLeftPar LogicalExpression # tRightPar          { tAnd, tOr, tRightPar }
+   LogicalExpression -->  LogicalExpression # tOr Conjuction          { tOr, tRightPar }
+
+Transitions:
+   tOr : S98
+   tRightPar : S122
+
+
+
+S110:
+   Comparison -->  ArithmeticalExpression tEqual ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   Comparison -->  ArithmeticalExpression tEqual ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S111:
+   Comparison -->  ArithmeticalExpression tGreater ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   Comparison -->  ArithmeticalExpression tGreater ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S112:
+   Comparison -->  ArithmeticalExpression tGreaterEqual ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   Comparison -->  ArithmeticalExpression tGreaterEqual ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S113:
+   Comparison -->  ArithmeticalExpression tLess ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   Comparison -->  ArithmeticalExpression tLess ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S114:
+   Comparison -->  ArithmeticalExpression tLessEqual ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   Comparison -->  ArithmeticalExpression tLessEqual ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S115:
+   Comparison -->  ArithmeticalExpression tNotEqual ArithmeticalExpression #          { _defaultred }
+   ArithmeticalExpression -->  ArithmeticalExpression # tPlus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+   ArithmeticalExpression -->  ArithmeticalExpression # tMinus Addend          { tAnd, tMinus, tOr, tPlus, tRightPar }
+
+Transitions:
+   tMinus : S76
+   tPlus : S77
+
+Reductions:
+   Comparison -->  ArithmeticalExpression tNotEqual ArithmeticalExpression #          { _defaultred }
+
+
+
+
+S116:
+   BracedBlock -->  tLeftBrace # InstructionsBlock tRightBrace          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tSemicolon : S21
+   InstructionsBlock : S123
+   Instruction : S26
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+
+
+S117:
+   BracedBlock -->  Instruction #          { _defaultred }
+
+Reductions:
+   BracedBlock -->  Instruction #          { _defaultred }
+
+
+
+
+S118:
+   IfElseStatement -->  tIf tLeftPar IfElseCondition tRightPar BracedBlock # tElse BracedBlock          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tElse : S124
+
+
+
+S119:
+   LogicalExpression -->  LogicalExpression tOr Conjuction #          { _defaultred }
+   Conjuction -->  Conjuction # tAnd LogicalValue          { tAnd, tOr, tRightPar }
+
+Transitions:
+   tAnd : S99
+
+Reductions:
+   LogicalExpression -->  LogicalExpression tOr Conjuction #          { _defaultred }
+
+
+
+
+S120:
+   Conjuction -->  Conjuction tAnd LogicalValue #          { _defaultred }
+
+Reductions:
+   Conjuction -->  Conjuction tAnd LogicalValue #          { _defaultred }
+
+
+
+
+S121:
+   Factor -->  tMinus tLeftPar ArithmeticalExpression tRightPar #          { _defaultred }
+
+Reductions:
+   Factor -->  tMinus tLeftPar ArithmeticalExpression tRightPar #          { _defaultred }
+
+
+
+
+S122:
+   LogicalValue -->  tNot tLeftPar LogicalExpression tRightPar #          { _defaultred }
+
+Reductions:
+   LogicalValue -->  tNot tLeftPar LogicalExpression tRightPar #          { _defaultred }
+
+
+
+
+S123:
+   BracedBlock -->  tLeftBrace InstructionsBlock # tRightBrace          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+   InstructionsBlock -->  InstructionsBlock # Instruction          { tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S18
+   tIf : S19
+   tReturn : S20
+   tRightBrace : S125
+   tSemicolon : S21
+   Instruction : S50
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   tPrint : S31
+
+
+
+S124:
+   IfElseStatement -->  tIf tLeftPar IfElseCondition tRightPar BracedBlock tElse # BracedBlock          { tElse, tIdentifier, tIf, tReturn, tRightBrace, tSemicolon, Instruction, Assignment, FunctionCall, ReturnInstruction, IfElseStatement, tPrint }
+
+Transitions:
+   tIdentifier : S18
+   tIf : S19
+   tLeftBrace : S116
+   tReturn : S20
+   tSemicolon : S21
+   Instruction : S117
+   Assignment : S27
+   FunctionCall : S28
+   ReturnInstruction : S29
+   IfElseStatement : S30
+   BracedBlock : S126
+   tPrint : S31
+
+
+
+S125:
+   BracedBlock -->  tLeftBrace InstructionsBlock tRightBrace #          { _defaultred }
+
+Reductions:
+   BracedBlock -->  tLeftBrace InstructionsBlock tRightBrace #          { _defaultred }
+
+
+
+
+S126:
+   IfElseStatement -->  tIf tLeftPar IfElseCondition tRightPar BracedBlock tElse BracedBlock #          { _defaultred }
+
+Reductions:
+   IfElseStatement -->  tIf tLeftPar IfElseCondition tRightPar BracedBlock tElse BracedBlock #          { _defaultred }
+
+
+
+
+S127:
+
+
+
+
+
+
+State S57 has shift/reduce conflicts for { tSemicolon }
+
+
+ended normally in line 281
+

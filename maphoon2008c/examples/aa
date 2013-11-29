@@ -1,0 +1,259 @@
+Start symbols / Lookaheads:
+   Fp : { Eof }
+
+
+Rules:
+
+ [0]      Fp --> Sign, Int, Frac, Exp
+ [1]      Sign --> 
+ [2]      Sign --> plus
+ [3]      Sign --> minus
+ [4]      Int --> digit
+ [5]      Int --> Int, digit
+ [6]      Frac --> 
+ [7]      Frac --> dot, Int
+ [8]      Exp --> 
+ [9]      Exp --> e, Sign, Int
+ [10]      Exp --> E, Sign, Int
+
+
+Actions:
+
+
+
+declared symbols: {  }
+
+tokens occurring left:
+   { Fp, Sign, Int, Frac, Exp }
+
+tokens occurring right:
+   { Sign, Int, Frac, Exp, plus, minus, digit, dot, e, E }
+
+symbols that occur in grammar without declaration: { Eof, Fp, Sign, Int, Frac, Exp, plus, minus, digit, dot, e, E }
+
+attributesystem:
+
+types of attributes:
+
+
+constraints on attributes:
+
+
+
+global variables
+
+Parsetable:
+
+==========================================
+
+   Fp : S0
+
+
+S0:
+   Fp -->  # Sign Int Frac Exp          { Eof }
+   Sign -->  #          { _defaultred }
+
+Transitions:
+   Fp : S17
+   Sign : S1
+   plus : S2
+   minus : S3
+
+Reductions:
+   Sign -->  #          { _defaultred }
+
+
+
+
+S1:
+   Fp -->  Sign # Int Frac Exp          { Eof }
+
+Transitions:
+   Int : S4
+   digit : S5
+
+
+
+S2:
+   Sign -->  plus #          { _defaultred }
+
+Reductions:
+   Sign -->  plus #          { _defaultred }
+
+
+
+
+S3:
+   Sign -->  minus #          { _defaultred }
+
+Reductions:
+   Sign -->  minus #          { _defaultred }
+
+
+
+
+S4:
+   Fp -->  Sign Int # Frac Exp          { Eof }
+   Int -->  Int # digit          { Eof, Frac, Exp, digit, dot, e, E }
+   Frac -->  #          { _defaultred }
+
+Transitions:
+   Frac : S6
+   digit : S7
+   dot : S8
+
+Reductions:
+   Frac -->  #          { _defaultred }
+
+
+
+
+S5:
+   Int -->  digit #          { _defaultred }
+
+Reductions:
+   Int -->  digit #          { _defaultred }
+
+
+
+
+S6:
+   Fp -->  Sign Int Frac # Exp          { Eof }
+   Exp -->  #          { _defaultred }
+
+Transitions:
+   Exp : S9
+   e : S10
+   E : S11
+
+Reductions:
+   Exp -->  #          { _defaultred }
+
+
+
+
+S7:
+   Int -->  Int digit #          { _defaultred }
+
+Reductions:
+   Int -->  Int digit #          { _defaultred }
+
+
+
+
+S8:
+   Frac -->  dot # Int          { Eof, Exp, e, E }
+
+Transitions:
+   Int : S12
+   digit : S5
+
+
+
+S9:
+   Fp -->  Sign Int Frac Exp #          { _defaultred }
+
+Reductions:
+   Fp -->  Sign Int Frac Exp #          { _defaultred }
+
+
+
+
+S10:
+   Exp -->  e # Sign Int          { Eof }
+   Sign -->  #          { _defaultred }
+
+Transitions:
+   Sign : S13
+   plus : S2
+   minus : S3
+
+Reductions:
+   Sign -->  #          { _defaultred }
+
+
+
+
+S11:
+   Exp -->  E # Sign Int          { Eof }
+   Sign -->  #          { _defaultred }
+
+Transitions:
+   Sign : S14
+   plus : S2
+   minus : S3
+
+Reductions:
+   Sign -->  #          { _defaultred }
+
+
+
+
+S12:
+   Frac -->  dot Int #          { _defaultred }
+   Int -->  Int # digit          { Eof, Exp, digit, e, E }
+
+Transitions:
+   digit : S7
+
+Reductions:
+   Frac -->  dot Int #          { _defaultred }
+
+
+
+
+S13:
+   Exp -->  e Sign # Int          { Eof }
+
+Transitions:
+   Int : S15
+   digit : S5
+
+
+
+S14:
+   Exp -->  E Sign # Int          { Eof }
+
+Transitions:
+   Int : S16
+   digit : S5
+
+
+
+S15:
+   Exp -->  e Sign Int #          { _defaultred }
+   Int -->  Int # digit          { Eof, digit }
+
+Transitions:
+   digit : S7
+
+Reductions:
+   Exp -->  e Sign Int #          { _defaultred }
+
+
+
+
+S16:
+   Exp -->  E Sign Int #          { _defaultred }
+   Int -->  Int # digit          { Eof, digit }
+
+Transitions:
+   digit : S7
+
+Reductions:
+   Exp -->  E Sign Int #          { _defaultred }
+
+
+
+
+S17:
+
+
+
+
+
+
+
+
+ended normally in line 30
+
