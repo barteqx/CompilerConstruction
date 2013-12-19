@@ -1,5 +1,4 @@
 
-
 #include "assert.h"
 #include "reader.h"
 #include "tokenizer.h"
@@ -42,14 +41,11 @@ int main( int argc, char* argv [] )
          switch( top. state )
          {
          case 0:
-            if ( tok.type == tkn_LPAR) {
+            if (tok.type == tkn_RPAR) {
                p.read(1);
                tt.lookahead.pop_front();
-            } else if (tok.type == tkn_LPAR) {
-               p.read(2);
-               tt.lookahead.pop_front();
             } else {
-               ASSERT(false);
+               p.read(2);
             }
             break;
 
@@ -61,8 +57,11 @@ int main( int argc, char* argv [] )
             if (tok.type == tkn_RPAR) {
                p.read(1);
                tt.lookahead.pop_front();
-            } else {
+            } else if (tok.type == tkn_LPAR) {
                p.descend(2, tkn_LISTARGS, 0);
+               tt.lookahead.pop_front();
+            } else if (tok.type == tkn_IDENTIFIER || tok.type == tkn_NUMBER || is_operator(tok.type)) {
+               tt.lookahead.pop_front();
             }
             break;
 
@@ -76,8 +75,9 @@ int main( int argc, char* argv [] )
             case 0:
                if (tok.type == tkn_EOF) {
                   p.close();
-               } else {
+               } else if (tok.type == tkn_LPAR) {
                   p.descend(0, tkn_LISTARGS, 0);
+                  tt.lookahead.pop_front();
                }
             break;             
 
