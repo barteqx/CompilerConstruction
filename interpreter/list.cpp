@@ -18,7 +18,7 @@ struct list::lst_bigint : public lst
    bool isbigint( ) const override { return true; }
    const bigint& getbigint( ) const override { return i; }
 
-   bool istrue( ) { return i != 0; }
+   bool istrue( ) const override { return i != 0; }
    
    void print( std::ostream& out ) const override 
    {
@@ -39,7 +39,7 @@ struct list::lst_string : public lst
 
    bool isnil( ) const override { return s == "nil"; }
 
-   bool istrue( ) { return s != "false" && s != "nil"; }
+   bool istrue( ) const override { return s != "false" && s != "nil"; }
 
    bool isEOF( ) const override { return s == "EOF"; }
    
@@ -62,6 +62,7 @@ struct list::lst_cons : public lst
    { }
 
    bool iscons( ) const override { return true; }
+   bool istrue( ) const override { return true; }
    bool islambda( ) const override { return first.getstring() == "lambda"; }
    const list& getfirst( ) const override { return first; }
    const list& getrest( ) const override { return rest; }

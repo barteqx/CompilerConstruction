@@ -27,183 +27,267 @@ void args_unification(list f_args, list call_args, varstore& global, varstore& l
 
 list eval(list E, varstore& global, varstore& local) {
 
+  if (!E.iscons()) {
 
-  if (E.isstring() && !E.iscons()) {
+    if (E.isstring()) {
 
-    list* e = local.lookup(E.getstring());
+      list* e = local.lookup(E.getstring());
 
-    if (e != 0) {
-      return (*e);
+      if (e != 0) {
+        return (*e);
+      }
+
+      e = global.lookup(E.getstring());
+      if (e != 0) {
+        return (*e);
+      }
+
+      if (E.getstring() == "quit") {
+        return list("EOF");
+      }
+
+      if (E.isnil()) return E;
+
+      else throw NameError(std::string("Undefined variable: ") + E.getstring() + "!");
+
     }
 
-    e = global.lookup(E.getstring());
-    if (e != 0) {
-      return (*e);
-    }
+    if (E.isbigint()) return E;
 
-    if (E.getstring() == "quit") {
-      return list("EOF");
-    }
+  } else {
 
-    else throw NameError(std::string("Undefined variable: ") + E.getstring() + "!");
+    if (E.getfirst().isbigint()) return E;
 
-  }
+      if (E.getfirst().getstring() == "if") {
 
-  if (E.isbigint()) return E;
+        list e = E.getrest();
+        list conditional = eval(e.getfirst(), global, local);
 
-  if (E.getfirst().getstring() == "if") {
+        if (conditional.istrue()) {
+          e = e.getrest().getfirst();
+          return eval(e, global, local);
+        }
 
-    list e = E.getrest();
-    list conditional = eval(e.getfirst(), global, local);
+        e = e.getrest().getrest().getfirst();
+        return eval(e, global, local);
+      }
 
-    if (conditional.getstring() == "true") {
-      e = e.getrest().getfirst();
-      return eval(e, global, local);
-    }
+      if (E.getfirst().getstring() == "set") {
 
-    e = e.getrest().getrest();
-    return eval(e, global, local);
-  }
+        list e = E.getrest();
+        if (!e.getfirst().isstring()) 
+          throw NameError(std::string("Identifier name must be alphanumeric!"));
 
-  if (E.getfirst().getstring() == "set") {
+        list ev = eval(e.getrest().getfirst(), global, local);
+        global.init(e.getfirst().getstring(), ev);
+        return ev;
+      }
 
-    list e = E.getrest();
-    if (!e.getfirst().isstring()) 
-      throw NameError(std::string("Identifier name must be alphanumeric!"));
+      if (E.getfirst().getstring() == "setq") {
+        list e = E.getrest();
 
-    list ev = eval(e.getrest().getfirst(), global, local);
-    global.init(e.getfirst().getstring(), ev);
-    return ev;
-  }
+        if (!e.getfirst().isstring()) 
+          throw NameError(std::string("Identifier name must be alphanumeric!"));
 
-  if (E.getfirst().getstring() == "setq") {
-    list e = E.getrest();
+        global.init(e.getfirst().getstring(), e.getrest());
 
-    if (!e.getfirst().isstring()) 
-      throw NameError(std::string("Identifier name must be alphanumeric!"));
+        return list("nil");
+      }
 
-    global.init(e.getfirst().getstring(), e.getrest());
+      if (E.getfirst().getstring() == "define") {
+        list f_name = E.getrest().getfirst();
+        list args = E.getrest().getrest().getfirst();
+        list body = E.getrest().getrest().getrest().getfirst();
 
-    return list("nil");
-  }
+        list lambda = list(list("lambda"), list(args, body));
 
-  if (E.getfirst().getstring() == "define") {
-    list f_name = E.getrest().getfirst();
-    list args = E.getrest().getrest().getfirst();
-    list body = E.getrest().getrest().getrest().getfirst();
+        global.init(f_name.getstring(), lambda);
 
-    list lambda = list(list("lambda"), list(args, body));
+        return list("nil");
+      }
 
-    global.init(f_name.getstring(), lambda);
+      if (E.getfirst().getstring() == "plus") {
 
-    return list("nil");
-  }
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-  if (E.getfirst().getstring() == "plus") {
+        if (!fst.isbigint() || !snd.isbigint()) 
+          throw TypeError(std::string("Values must be numerical!"));
 
-    list fst = eval(E.getrest().getfirst(), global, local);
-    list snd = eval(E.getrest().getrest().getfirst(), global, local);
+        return list(fst.getbigint() + snd.getbigint());
+      }
 
-    if (!fst.isbigint() || !snd.isbigint()) 
-      throw TypeError(std::string("Values must be numerical!"));
+      if (E.getfirst().getstring() == "minus") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-    return list(fst.getbigint() + snd.getbigint());
-  }
+        if (!fst.isbigint() || !snd.isbigint()) 
+          throw TypeError(std::string("Values must be numerical!"));
 
-  if (E.getfirst().getstring() == "minus") {
-    list fst = eval(E.getrest().getfirst(), global, local);
-    list snd = eval(E.getrest().getrest().getfirst(), global, local);
+        return list(fst.getbigint() - snd.getbigint());
+      }
 
-    if (!fst.isbigint() || !snd.isbigint()) 
-      throw TypeError(std::string("Values must be numerical!"));
+      if (E.getfirst().getstring() == "times") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
+        if (!fst.isbigint() || !snd.isbigint()) 
+          throw TypeError(std::string("Values must be numerical!"));
 
-    return list(fst.getbigint() - snd.getbigint());
-  }
+        return list(fst.getbigint() * snd.getbigint());
+      }
 
-  if (E.getfirst().getstring() == "times") {
-    list fst = eval(E.getrest().getfirst(), global, local);
-    list snd = eval(E.getrest().getrest().getfirst(), global, local);
-    if (!fst.isbigint() || !snd.isbigint()) 
-      throw TypeError(std::string("Values must be numerical!"));
+      if (E.getfirst().getstring() == "divides") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-    return list(fst.getbigint() * snd.getbigint());
-  }
+        if (!fst.isbigint() || !snd.isbigint()) 
+          throw TypeError(std::string("Values must be numerical!"));
 
-  if (E.getfirst().getstring() == "divides") {
-    list fst = eval(E.getrest().getfirst(), global, local);
-    list snd = eval(E.getrest().getrest().getfirst(), global, local);
+        if (snd.getbigint() == 0)
+          throw ZeroDivisionError(std::string("Cannot divide by zero!"));
 
-    if (!fst.isbigint() || !snd.isbigint()) 
-      throw TypeError(std::string("Values must be numerical!"));
+        return list(fst.getbigint() / snd.getbigint());
+      }
 
-    if (snd.getbigint() == 0)
-      throw ZeroDivisionError(std::string("Cannot divide by zero!"));
+      if (E.getfirst().getstring() == "head") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        if (fst.iscons()) {
+          return fst.getfirst();
+        } else
+          throw TypeError("Not a constructor");
+      }
 
-    return list(fst.getbigint() / snd.getbigint());
-  }
+      if (E.getfirst().getstring() == "concat") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
+        return list(fst, snd);
+      }
 
-  if (E.getfirst().getstring() == "equals") {
-    list fst = eval(E.getrest().getfirst(), global, local);
-    list snd = eval(E.getrest().getrest().getfirst(), global, local);
+      if (E.getfirst().getstring() == "tail") {
 
-    if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
-      return list("false");
+        list fst = eval(E.getrest().getfirst(), global, local);
+        if (fst.iscons()) {
+          return fst.getrest();
+        } else
+          throw TypeError("Not a constructor");
+      }
 
-    if (fst.isbigint() && fst.getbigint() == snd.getbigint())
-      return list("true");
+      if (E.getfirst().getstring() == "equals") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-    return list("false");
-  }
+        if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
+          return list("false");
 
-  if (E.getfirst().getstring() == "notequals") {
-    list fst = eval(E.getrest().getfirst(), global, local);
-    list snd = eval(E.getrest().getrest().getfirst(), global, local);
+        if (fst.isbigint() && fst.getbigint() == snd.getbigint())
+          return list("true");
 
-    if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
-      return list("true");
+        return list("false");
+      }
 
-    if (fst.isbigint() && fst.getbigint() == snd.getbigint())
-      return list("false");
+      if (E.getfirst().getstring() == "gt") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-    return list("true");
-  }
+        if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
+          return list("false");
 
-  if (E.getfirst().getstring() == "and") {
-      list fst = eval(E.getrest().getfirst(), global, local);
-      list snd = E.getrest().getrest().getfirst();
-      if(!fst.istrue()) return list("false");
-      return eval(snd, global, local);
-  }
+        if (fst.isbigint() && fst.getbigint() > snd.getbigint())
+          return list("true");
 
-  if (E.getfirst().getstring() == "or") {
-      list fst = eval(E.getrest().getfirst(), global, local);
-      list snd = E.getrest().getrest().getfirst();
-      if(fst.istrue()) return fst;
-      if (snd.isnil()) return list("false");
-      return eval(snd, global, local);
-  }
+        return list("false");
+      }
 
-  if (E.iscons()) {
-    if (E.getrest().isnil())
-      return eval(E.getfirst(), global, local);
+      if (E.getfirst().getstring() == "lt") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-    varstore::backtrackpoint p = local.getbacktrackpoint();
+        if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
+          return list("false");
 
-    list f_name = E.getfirst();
+        if (fst.isbigint() && fst.getbigint() < snd.getbigint())
+          return list("true");
 
-    list* f = global.lookup(f_name.getstring());
+        return list("false");
+      }
 
-    if (!(*f).islambda())
-      throw TypeError(std::string(f_name.getstring()) + " is not a function or is undefinded!");
+      if (E.getfirst().getstring() == "geq") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
 
-    list f_args = (*f).getrest().getfirst();
-    list f_body = (*f).getrest().getrest().getfirst();
+        if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
+          return list("false");
 
-    args_unification(f_args, E.getrest(), global, local);
+        if (fst.isbigint() && fst.getbigint() >= snd.getbigint())
+          return list("true");
 
-    list ev = eval(f_body, global, local);
+        return list("false");
+      }
 
-    return ev;
+      if (E.getfirst().getstring() == "leq") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
+
+        if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
+          return list("false");
+
+        if (fst.isbigint() && fst.getbigint() <= snd.getbigint())
+          return list("true");
+
+        return list("false");
+      }
+
+      if (E.getfirst().getstring() == "notequals") {
+        list fst = eval(E.getrest().getfirst(), global, local);
+        list snd = eval(E.getrest().getrest().getfirst(), global, local);
+
+        if ((!snd.isbigint() && fst.isbigint()) || (!snd.isstring() && fst.isstring()))
+          return list("true");
+
+        if (fst.isbigint() && fst.getbigint() == snd.getbigint())
+          return list("false");
+
+        return list("true");
+      }
+
+      if (E.getfirst().getstring() == "and") {
+          list fst = eval(E.getrest().getfirst(), global, local);
+          list snd = E.getrest().getrest().getfirst();
+          if(!fst.istrue()) return fst;
+          return eval(snd, global, local);
+      }
+
+      if (E.getfirst().getstring() == "or") {
+          list fst = eval(E.getrest().getfirst(), global, local);
+          list snd = E.getrest().getrest().getfirst();
+          if(fst.istrue()) return fst;
+          if (snd.isnil()) return list("false");
+          return eval(snd, global, local);
+      }
+
+      if (E.getrest().isnil()) {
+        return eval(E.getfirst(), global, local);
+      }
+
+      varstore::backtrackpoint p = local.getbacktrackpoint();
+      list f_name = E.getfirst();
+
+      list* f = global.lookup(f_name.getstring());
+
+      if (f == 0)
+        throw NameError("Undefined function: " + f_name.getstring());
+
+      if (!(*f).islambda())
+        throw TypeError(std::string(f_name.getstring()) + " is not a function!");
+
+      list f_args = (*f).getrest().getfirst();
+      list f_body = (*f).getrest().getrest();
+
+      args_unification(f_args, E.getrest(), global, local);
+
+      list ev = eval(f_body, global, local);
+
+      return ev;
   }
   return list("nil");
 }
