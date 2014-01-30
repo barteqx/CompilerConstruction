@@ -73,30 +73,6 @@ varstore global, local;
    token l = tkn_LIST;
    l. value. push_back( list( NUMBER1 -> value. front( ) ) );
    return l;
-
-%      | PLUS
-   
-   token l = tkn_LIST;
-   l. value. push_back( list( "+") );
-   return l;
-
-%      | MINUS
-   
-   token l = tkn_LIST;
-   l. value. push_back( list( "-") );
-   return l;
-
-%      | DIVIDES
-   
-   token l = tkn_LIST;
-   l. value. push_back( list( "/") );
-   return l;
-
-%      | TIMES
-   
-   token l = tkn_LIST;
-   l. value. push_back( list( "*") );
-   return l;
    
 %      | LPAR LISTARGS RPAR
    LISTARGS2 -> type = tkn_LIST;

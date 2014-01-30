@@ -66,59 +66,43 @@ namespace
 
    unsigned int starts [] = 
    {
-      0, 5, 7, 28, 31, 34, 37, 40, 43, 46, 67, 
-      69, 90, 92, 94, 97, 100, 103, 0 };
+      0, 5, 7, 20, 23, 26, 39, 41, 54, 56, 58, 
+      61, 64, 67, 0 };
 
    unsigned int defaults [] = {
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
-      11, 12, 13, 14, 15, 16, 0 };
+      11, 12, 0 };
 
    int parsetable [] = 
    {
       tkn__defaultred, -10002, 0, 
       tkn_Session, 10001, 
       tkn_LPAR, 10002, 
-      tkn__defaultred, -10010, 0, 
+      tkn__defaultred, -10006, 0, 
       tkn_IDENTIFIER, 10003, 
       tkn_NUMBER, 10004, 
-      tkn_PLUS, 10005, 
-      tkn_TIMES, 10006, 
-      tkn_MINUS, 10007, 
-      tkn_DIVIDES, 10008, 
-      tkn_LPAR, 10009, 
-      tkn_LISTARGS, 10010, 
-      tkn_LIST, 10011, 
+      tkn_LPAR, 10005, 
+      tkn_LISTARGS, 10006, 
+      tkn_LIST, 10007, 
       tkn__defaultred, -10003, 0, 
       tkn__defaultred, -10004, 0, 
-      tkn__defaultred, -10005, 0, 
-      tkn__defaultred, -10008, 0, 
       tkn__defaultred, -10006, 0, 
+      tkn_IDENTIFIER, 10003, 
+      tkn_NUMBER, 10004, 
+      tkn_LPAR, 10005, 
+      tkn_LISTARGS, 10008, 
+      tkn_LIST, 10007, 
+      tkn_RPAR, 10009, 
+      tkn__defaultred, -10006, 0, 
+      tkn_IDENTIFIER, 10003, 
+      tkn_NUMBER, 10004, 
+      tkn_LPAR, 10005, 
+      tkn_LISTARGS, 10010, 
+      tkn_LIST, 10007, 
+      tkn_RPAR, 10011, 
+      tkn_SEMICOLON, 10012, 
       tkn__defaultred, -10007, 0, 
-      tkn__defaultred, -10010, 0, 
-      tkn_IDENTIFIER, 10003, 
-      tkn_NUMBER, 10004, 
-      tkn_PLUS, 10005, 
-      tkn_TIMES, 10006, 
-      tkn_MINUS, 10007, 
-      tkn_DIVIDES, 10008, 
-      tkn_LPAR, 10009, 
-      tkn_LISTARGS, 10012, 
-      tkn_LIST, 10011, 
-      tkn_RPAR, 10013, 
-      tkn__defaultred, -10010, 0, 
-      tkn_IDENTIFIER, 10003, 
-      tkn_NUMBER, 10004, 
-      tkn_PLUS, 10005, 
-      tkn_TIMES, 10006, 
-      tkn_MINUS, 10007, 
-      tkn_DIVIDES, 10008, 
-      tkn_LPAR, 10009, 
-      tkn_LISTARGS, 10014, 
-      tkn_LIST, 10011, 
-      tkn_RPAR, 10015, 
-      tkn_SEMICOLON, 10016, 
-      tkn__defaultred, -10011, 0, 
-      tkn__defaultred, -10009, 0, 
+      tkn__defaultred, -10005, 0, 
       tkn__defaultred, -10001, 0, 
    0 };
 
@@ -312,84 +296,12 @@ l. value. push_back( list( NUMBER1 -> value. front( ) ) );
 void reduction_5(
    std::list < token > & stack,
    std::list < token > :: iterator position,
-   std::list < token > :: iterator PLUS1 ) throw( refused )
-{
-
-#line 77 "recursive.m"
-
-
-token l = tkn_LIST;
-l. value. push_back( list( "+") );
-{ reduce( stack, position, tkn_LIST, l ); return; }
-
-{ reduce( stack, position, tkn_LIST, tkn_LIST ); return; }
-
-}
-
-
-void reduction_6(
-   std::list < token > & stack,
-   std::list < token > :: iterator position,
-   std::list < token > :: iterator MINUS1 ) throw( refused )
-{
-
-#line 83 "recursive.m"
-
-
-token l = tkn_LIST;
-l. value. push_back( list( "-") );
-{ reduce( stack, position, tkn_LIST, l ); return; }
-
-{ reduce( stack, position, tkn_LIST, tkn_LIST ); return; }
-
-}
-
-
-void reduction_7(
-   std::list < token > & stack,
-   std::list < token > :: iterator position,
-   std::list < token > :: iterator DIVIDES1 ) throw( refused )
-{
-
-#line 89 "recursive.m"
-
-
-token l = tkn_LIST;
-l. value. push_back( list( "/") );
-{ reduce( stack, position, tkn_LIST, l ); return; }
-
-{ reduce( stack, position, tkn_LIST, tkn_LIST ); return; }
-
-}
-
-
-void reduction_8(
-   std::list < token > & stack,
-   std::list < token > :: iterator position,
-   std::list < token > :: iterator TIMES1 ) throw( refused )
-{
-
-#line 95 "recursive.m"
-
-
-token l = tkn_LIST;
-l. value. push_back( list( "*") );
-{ reduce( stack, position, tkn_LIST, l ); return; }
-
-{ reduce( stack, position, tkn_LIST, tkn_LIST ); return; }
-
-}
-
-
-void reduction_9(
-   std::list < token > & stack,
-   std::list < token > :: iterator position,
    std::list < token > :: iterator LPAR1,
    std::list < token > :: iterator LISTARGS2,
    std::list < token > :: iterator RPAR3 ) throw( refused )
 {
 
-#line 101 "recursive.m"
+#line 77 "recursive.m"
 
 LISTARGS2 -> type = tkn_LIST;
 { reduce( stack, position, tkn_LIST, LISTARGS2 ); return; }
@@ -398,12 +310,12 @@ LISTARGS2 -> type = tkn_LIST;
 }
 
 
-void reduction_10(
+void reduction_6(
    std::list < token > & stack,
    std::list < token > :: iterator position ) throw( refused )
 {
 
-#line 107 "recursive.m"
+#line 83 "recursive.m"
 
 token l = tkn_LISTARGS;
 l. value. push_back( list( "nil" ) );
@@ -414,14 +326,14 @@ l. value. push_back( list( "nil" ) );
 }
 
 
-void reduction_11(
+void reduction_7(
    std::list < token > & stack,
    std::list < token > :: iterator position,
    std::list < token > :: iterator LIST1,
    std::list < token > :: iterator LISTARGS2 ) throw( refused )
 {
 
-#line 112 "recursive.m"
+#line 88 "recursive.m"
 
 LIST1 -> type = tkn_LISTARGS;
 list head = LIST1 -> value. front( );
@@ -709,25 +621,13 @@ case 4:
    reduction_4( parsestack, parsestack. end( ) - 1, parsestack. end( ) - 1 );
    break;
 case 5:
-   reduction_5( parsestack, parsestack. end( ) - 1, parsestack. end( ) - 1 );
+   reduction_5( parsestack, parsestack. end( ) - 3, parsestack. end( ) - 3, parsestack. end( ) - 2, parsestack. end( ) - 1 );
    break;
 case 6:
-   reduction_6( parsestack, parsestack. end( ) - 1, parsestack. end( ) - 1 );
+   reduction_6( parsestack, parsestack. end( ) - 0 );
    break;
 case 7:
-   reduction_7( parsestack, parsestack. end( ) - 1, parsestack. end( ) - 1 );
-   break;
-case 8:
-   reduction_8( parsestack, parsestack. end( ) - 1, parsestack. end( ) - 1 );
-   break;
-case 9:
-   reduction_9( parsestack, parsestack. end( ) - 3, parsestack. end( ) - 3, parsestack. end( ) - 2, parsestack. end( ) - 1 );
-   break;
-case 10:
-   reduction_10( parsestack, parsestack. end( ) - 0 );
-   break;
-case 11:
-   reduction_11( parsestack, parsestack. end( ) - 2, parsestack. end( ) - 2, parsestack. end( ) - 1 );
+   reduction_7( parsestack, parsestack. end( ) - 2, parsestack. end( ) - 2, parsestack. end( ) - 1 );
    break;
 
             default:

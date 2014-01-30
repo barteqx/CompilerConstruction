@@ -7,8 +7,8 @@ Flags = -Wreturn-type -pedantic -pedantic-errors -Wundef -std=c++11
 CPP = g++
 
 
-parser : Makefile   evaluator.o tokenizer.o token.o varstore.o parser.o list.o bigint.o parser.o recursive.o
-	$(CPP) $(Flags) -o parser evaluator.o tokenizer.o token.o varstore.o parser.o list.o bigint.o recursive.o
+interpreter : Makefile   evaluator.o tokenizer.o token.o varstore.o parser.o list.o bigint.o parser.o recursive.o
+	$(CPP) $(Flags) -o interpreter evaluator.o tokenizer.o token.o varstore.o parser.o list.o bigint.o recursive.o
 
 tokenizer.o : Makefile  tokenizer.cpp  reader.h token.h tokenizer.h assert.h 
 	$(CPP) -c $(Flags) tokenizer.cpp -o  tokenizer.o
