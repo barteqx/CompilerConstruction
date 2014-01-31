@@ -58,6 +58,9 @@ list eval(list E, varstore& global, varstore& local) {
 
     if (E.getfirst().isbigint()) return E;
 
+    if (E.getfirst().iscons()) 
+        return list(eval(E.getfirst(), global, local), eval(E.getrest(), global, local));
+
       if (E.getfirst().getstring() == "if") {
 
         list e = E.getrest();
@@ -152,9 +155,11 @@ list eval(list E, varstore& global, varstore& local) {
       if (E.getfirst().getstring() == "head") {
         list fst = eval(E.getrest().getfirst(), global, local);
         if (fst.iscons()) {
-          return fst.getfirst();
-        } else
+          return eval(fst.getfirst(), global, local);
+        } else {
+          
           throw TypeError("Not a constructor");
+        }
       }
 
       if (E.getfirst().getstring() == "concat") {
@@ -167,7 +172,7 @@ list eval(list E, varstore& global, varstore& local) {
 
         list fst = eval(E.getrest().getfirst(), global, local);
         if (fst.iscons()) {
-          return fst.getrest();
+          return eval(fst.getrest(), global, local);
         } else
           throw TypeError("Not a constructor");
       }
@@ -268,6 +273,8 @@ list eval(list E, varstore& global, varstore& local) {
       if (E.getrest().isnil()) {
         return eval(E.getfirst(), global, local);
       }
+
+
 
       varstore::backtrackpoint p = local.getbacktrackpoint();
       list f_name = E.getfirst();

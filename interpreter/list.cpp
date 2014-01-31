@@ -39,7 +39,7 @@ struct list::lst_string : public lst
 
    bool isnil( ) const override { return s == "nil"; }
 
-   bool istrue( ) const override { return s != "false" && s != "nil"; }
+   bool istrue( ) const override { return s != "false" && !isnil(); }
 
    bool isEOF( ) const override { return s == "EOF"; }
    
